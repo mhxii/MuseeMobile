@@ -55,7 +55,7 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
           onPress={() => navigation.navigate('Search')}
           activeOpacity={0.7}
         >
-          <Ionicons name="search" size={20} color={Colors.text.secondary} />
+          {/* <Ionicons name="search" size={20} color={Colors.text.secondary} /> */}
           <Text style={styles.searchPlaceholder}>Search Sculpture ...</Text>
           <View style={styles.searchIconRight}>
             <Ionicons name="search-outline" size={20} color={Colors.text.primary} />
