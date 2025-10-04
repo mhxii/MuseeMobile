@@ -24,12 +24,16 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
         {/* Header */}
         <View style={styles.header}>
           <TouchableOpacity style={styles.menuButton}>
-            <Ionicons name="menu" size={24} color={Colors.text.primary} />
+            <View style={styles.menuIcon}>
+              <View style={styles.menuLine} />
+              <View style={styles.menuLine} />
+              <View style={styles.menuLine} />
+            </View>
           </TouchableOpacity>
           
           <TouchableOpacity style={styles.profileButton}>
             <View style={styles.profileAvatar}>
-              <Ionicons name="person" size={20} color={Colors.black} />
+              <Ionicons name="person" size={18} color={Colors.background} />
             </View>
           </TouchableOpacity>
         </View>
@@ -52,7 +56,10 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
           activeOpacity={0.7}
         >
           <Ionicons name="search" size={20} color={Colors.text.secondary} />
-          <Text style={styles.searchInput}>Rechercher une œuvre...</Text>
+          <Text style={styles.searchPlaceholder}>Search Sculpture ...</Text>
+          <View style={styles.searchIconRight}>
+            <Ionicons name="search-outline" size={20} color={Colors.text.primary} />
+          </View>
         </TouchableOpacity>
       </View>        {/* Action Buttons */}
         <View style={styles.actionButtons}>
@@ -60,22 +67,22 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
             style={[styles.actionButton, styles.scanButton]}
             onPress={() => navigation.navigate('Scanner')}
           >
-            <Ionicons name="qr-code" size={20} color={Colors.white} />
+            <Ionicons name="qr-code-outline" size={22} color={Colors.white} />
             <View style={styles.actionTextContainer}>
               <Text style={styles.actionLabel}>Commencer l'expérience</Text>
-              <Text style={styles.actionTitle}>Scanner une œuvre</Text>
+              <Text style={styles.actionTitle}>Scanner une oeuvre</Text>
             </View>
-            <Ionicons name="chevron-forward" size={20} color={Colors.white} />
+            <Ionicons name="arrow-forward" size={20} color={Colors.white} />
           </TouchableOpacity>
           
           <TouchableOpacity 
             style={[styles.actionButton, styles.tourButton]}
             onPress={() => navigation.navigate('Collections')}
           >
-            <Ionicons name="eye-outline" size={20} color={Colors.white} />
+            <Ionicons name="cube-outline" size={22} color={Colors.background} />
             <View style={styles.actionTextContainer}>
-              <Text style={styles.actionLabel}>Explorer chaque salle</Text>
-              <Text style={styles.actionTitle}>Visite virtuelle</Text>
+              <Text style={[styles.actionLabel, { color: Colors.background, opacity: 0.7 }]}>Explorer chaque salle</Text>
+              <Text style={[styles.actionTitle, { color: Colors.background }]}>Visite virtuelle</Text>
             </View>
           </TouchableOpacity>
         </View>
@@ -162,11 +169,22 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     paddingHorizontal: Spacing.lg,
-    paddingTop: 60,
-    paddingBottom: Spacing.lg,
+    paddingTop: 50,
+    paddingBottom: Spacing.md,
   },
   menuButton: {
     padding: Spacing.sm,
+  },
+  menuIcon: {
+    width: 24,
+    height: 18,
+    justifyContent: 'space-between',
+  },
+  menuLine: {
+    width: '100%',
+    height: 2.5,
+    backgroundColor: Colors.text.primary,
+    borderRadius: 2,
   },
   profileButton: {
     padding: Spacing.sm,
@@ -178,6 +196,8 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.primary,
     justifyContent: 'center',
     alignItems: 'center',
+    borderWidth: 2,
+    borderColor: Colors.white,
   },
   welcomeSection: {
     paddingHorizontal: Spacing.lg,
@@ -209,11 +229,17 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     paddingHorizontal: Spacing.lg,
     paddingVertical: 14,
+    gap: Spacing.sm,
   },
-  searchInput: {
+  searchPlaceholder: {
     flex: 1,
-    fontSize: 16,
+    fontSize: 15,
     color: Colors.text.secondary,
+  },
+  searchIconRight: {
+    backgroundColor: Colors.primary,
+    padding: 8,
+    borderRadius: 8,
   },
   actionButtons: {
     paddingHorizontal: Spacing.lg,
@@ -238,12 +264,12 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   actionLabel: {
-    fontSize: 12,
+    fontSize: 11,
     color: Colors.white,
-    opacity: 0.8,
+    opacity: 0.85,
   },
   actionTitle: {
-    fontSize: 16,
+    fontSize: 15,
     fontWeight: '600',
     color: Colors.white,
     marginTop: 2,
@@ -271,21 +297,30 @@ const styles = StyleSheet.create({
     gap: Spacing.lg,
   },
   artworkCard: {
-    height: 200,
-    borderRadius: BorderRadius.xl,
+    height: 220,
+    borderRadius: 20,
     overflow: 'hidden',
     marginBottom: Spacing.lg,
+    shadowColor: Colors.black,
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    shadowOpacity: 0.3,
+    shadowRadius: 8,
+    elevation: 6,
   },
   artworkImage: {
     flex: 1,
     justifyContent: 'flex-end',
   },
   artworkImageStyle: {
-    borderRadius: BorderRadius.xl,
+    borderRadius: 20,
   },
   artworkOverlay: {
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    backgroundColor: 'rgba(0, 0, 0, 0.65)',
     padding: Spacing.lg,
+    paddingBottom: Spacing.md,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'flex-end',
@@ -297,26 +332,41 @@ const styles = StyleSheet.create({
     fontSize: 10,
     color: Colors.text.secondary,
     marginBottom: 4,
+    textTransform: 'uppercase',
+    letterSpacing: 0.5,
   },
   artworkTitle: {
-    fontSize: 18,
+    fontSize: 17,
     fontWeight: 'bold',
     color: Colors.white,
     marginBottom: 4,
+    fontFamily: 'serif',
   },
   artworkArtist: {
-    fontSize: 14,
+    fontSize: 13,
     color: Colors.text.secondary,
     marginBottom: 2,
   },
   artworkLocation: {
-    fontSize: 12,
+    fontSize: 11,
     color: Colors.text.tertiary,
   },
   artworkButton: {
     backgroundColor: Colors.primary,
-    padding: Spacing.sm,
-    borderRadius: 20,
+    padding: 12,
+    borderRadius: 25,
+    width: 48,
+    height: 48,
+    justifyContent: 'center',
+    alignItems: 'center',
+    shadowColor: Colors.primary,
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.5,
+    shadowRadius: 4,
+    elevation: 4,
   },
   bottomSpace: {
     height: 100,
@@ -329,21 +379,21 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     backgroundColor: Colors.surface,
     paddingHorizontal: Spacing.xl,
-    paddingVertical: Spacing.lg,
-    paddingBottom: Spacing.lg,
-    borderRadius: 25,
-    borderWidth: 1,
+    paddingVertical: 18,
+    paddingBottom: 18,
+    borderRadius: 28,
+    borderWidth: 1.5,
     borderColor: Colors.primary,
     justifyContent: 'space-around',
     alignItems: 'center',
     shadowColor: Colors.black,
     shadowOffset: {
       width: 0,
-      height: 5,
+      height: 8,
     },
-    shadowOpacity: 0.3,
-    shadowRadius: 10,
-    elevation: 10,
+    shadowOpacity: 0.4,
+    shadowRadius: 12,
+    elevation: 12,
   },
   navItem: {
     alignItems: 'center',
@@ -363,19 +413,21 @@ const styles = StyleSheet.create({
   },
   scanNavIcon: {
     backgroundColor: Colors.primary,
-    width: 70,
-    height: 70,
-    borderRadius: 35,
+    width: 72,
+    height: 72,
+    borderRadius: 36,
     justifyContent: 'center',
     alignItems: 'center',
     shadowColor: Colors.primary,
     shadowOffset: {
       width: 0,
-      height: 4,
+      height: 6,
     },
-    shadowOpacity: 0.5,
-    shadowRadius: 10,
-    elevation: 8,
+    shadowOpacity: 0.6,
+    shadowRadius: 12,
+    elevation: 10,
+    borderWidth: 3,
+    borderColor: Colors.background,
   },
 });
 
