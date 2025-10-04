@@ -61,21 +61,29 @@ const ArtworkDetailScreen: React.FC<ArtworkDetailScreenProps> = ({ navigation, r
         />
         <View style={styles.imageOverlay}>
           <TouchableOpacity
-            style={styles.favoriteButton}
-            onPress={handleToggleFavorite}
+            style={styles.backButton}
+            onPress={() => navigation?.goBack()}
           >
-            <Ionicons
-              name={isFavorite ? 'heart' : 'heart-outline'}
-              size={24}
-              color={isFavorite ? Colors.error : Colors.white}
-            />
+            <Ionicons name="chevron-back" size={28} color={Colors.white} />
           </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.shareButton}
-            onPress={handleShare}
-          >
-            <Ionicons name="share-outline" size={24} color={Colors.white} />
-          </TouchableOpacity>
+          <View style={styles.rightButtons}>
+            <TouchableOpacity
+              style={styles.favoriteButton}
+              onPress={handleToggleFavorite}
+            >
+              <Ionicons
+                name={isFavorite ? 'heart' : 'heart-outline'}
+                size={24}
+                color={isFavorite ? Colors.error : Colors.white}
+              />
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.shareButton}
+              onPress={handleShare}
+            >
+              <Ionicons name="share-outline" size={24} color={Colors.white} />
+            </TouchableOpacity>
+          </View>
         </View>
       </View>
       
@@ -171,9 +179,30 @@ const styles = StyleSheet.create({
   },
   imageOverlay: {
     position: 'absolute',
-    top: 20,
-    right: 20,
+    top: 50,
+    left: 0,
+    right: 0,
     flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingHorizontal: Spacing.lg,
+  },
+  backButton: {
+    width: 44,
+    height: 44,
+    borderRadius: 22,
+    backgroundColor: 'rgba(0, 0, 0, 0.6)',
+    justifyContent: 'center',
+    alignItems: 'center',
+    shadowColor: Colors.black,
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.3,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+  rightButtons: {
+    flexDirection: 'row',
+    gap: Spacing.sm,
   },
   favoriteButton: {
     width: 40,
@@ -182,7 +211,6 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(0, 0, 0, 0.5)',
     justifyContent: 'center',
     alignItems: 'center',
-    marginRight: Spacing.sm,
   },
   shareButton: {
     width: 40,
