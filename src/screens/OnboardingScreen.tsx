@@ -30,7 +30,7 @@ const onboardingData = [
     title: 'Scannez et\nExplorez',
     description: 'Utilisez votre caméra pour scanner les codes QR et accéder aux détails des œuvres',
     icon: 'qr-code-outline',
-    colors: [Colors.secondary, Colors.green],
+    colors: [Colors.secondary, Colors.success],
   },
   {
     id: '3',
@@ -44,7 +44,7 @@ const onboardingData = [
     title: 'Multilingue\nFR • EN • WO',
     description: 'L\'application est disponible en français, anglais et wolof pour une accessibilité maximale',
     icon: 'language-outline',
-    colors: [Colors.green, Colors.secondary],
+    colors: [Colors.success, Colors.secondary],
   },
 ];
 

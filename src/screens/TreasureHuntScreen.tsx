@@ -11,7 +11,7 @@ interface TreasureHuntScreenProps {
 const TreasureHuntScreen: React.FC<TreasureHuntScreenProps> = ({ navigation }) => {
   const getDifficultyColor = (difficulty: string) => {
     switch (difficulty) {
-      case 'easy': return Colors.green;
+      case 'easy': return Colors.success;
       case 'medium': return Colors.accent;
       case 'hard': return Colors.error;
       default: return Colors.gray.medium;

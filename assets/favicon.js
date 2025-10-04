@@ -1,0 +1,1 @@
+export const favicon = `data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3e%3ccircle fill='%23D4AF37' cx='16' cy='16' r='16'/%3e%3ctext x='16' y='21' font-size='14' text-anchor='middle' fill='white' font-family='Arial'%3eM%3c/text%3e%3c/svg%3e`;

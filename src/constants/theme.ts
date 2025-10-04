@@ -1,13 +1,13 @@
-// Palette de couleurs africaine inspirée du design du Musée des Civilisations Noires
+// Palette de couleurs africaine authentique inspirée du Musée des Civilisations Noires
 export const Colors = {
-  // Couleurs principales
-  primary: '#E25822',      // Orange terre - couleur principale
-  secondary: '#2E86AB',    // Bleu Sénégal - couleur secondaire
-  accent: '#F5B041',       // Jaune soleil - accent
-  earth: '#8B4513',        // Marron terre - tons chauds
-  green: '#27AE60',        // Vert nature - touches naturelles
-  background: '#FDF6E3',   // Beige sable - arrière-plan
-
+  // Couleurs principales - design sombre élégant
+  primary: '#D4AF37',      // Or doré - couleur principale
+  secondary: '#8B4513',    // Bronze/Cuivre - couleur secondaire
+  accent: '#FFD700',       // Or vif - accent
+  earth: '#6B4423',        // Terre brûlée - tons naturels
+  background: '#1A1A1A',   // Noir sophistiqué - arrière-plan principal
+  surface: '#2C2C2C',      // Gris sombre - surfaces secondaires
+  
   // Couleurs système
   white: '#FFFFFF',
   black: '#000000',
@@ -15,32 +15,34 @@ export const Colors = {
     light: '#F5F5F5',
     medium: '#CCCCCC',
     dark: '#666666',
+    darker: '#333333',
   },
 
   // États
-  success: '#27AE60',
-  warning: '#F5B041',
-  error: '#E74C3C',
-  info: '#2E86AB',
+  success: '#28A745',
+  warning: '#FFC107',
+  error: '#DC3545',
+  info: '#17A2B8',
 
-  // Texte
+  // Texte - adapté au fond sombre
   text: {
-    primary: '#2C3E50',
-    secondary: '#7F8C8D',
-    light: '#BDC3C7',
-    inverse: '#FFFFFF',
+    primary: '#FFFFFF',      // Blanc pour le texte principal
+    secondary: '#CCCCCC',    // Gris clair pour le texte secondaire
+    tertiary: '#999999',     // Gris moyen pour le texte tertiaire
+    accent: '#D4AF37',       // Or pour les accents
+    inverse: '#000000',      // Noir pour texte sur fond clair
   },
 
   // Ombres et transparences
-  shadow: 'rgba(0, 0, 0, 0.1)',
-  overlay: 'rgba(0, 0, 0, 0.5)',
+  shadow: 'rgba(0, 0, 0, 0.3)',
+  overlay: 'rgba(0, 0, 0, 0.7)',
   
-  // Gradients africains
+  // Gradients africains élégants
   gradients: {
-    sunset: ['#E25822', '#F5B041'],
-    ocean: ['#2E86AB', '#27AE60'],
-    earth: ['#8B4513', '#E25822'],
-    sand: ['#FDF6E3', '#F5B041'],
+    gold: ['#D4AF37', '#FFD700'],
+    bronze: ['#8B4513', '#D2691E'],
+    elegant: ['#1A1A1A', '#2C2C2C'],
+    sunset: ['#8B4513', '#D4AF37'],
   }
 };
 
