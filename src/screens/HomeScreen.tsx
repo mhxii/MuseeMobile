@@ -181,18 +181,19 @@ const styles = StyleSheet.create({
   },
   welcomeSection: {
     paddingHorizontal: Spacing.lg,
-    marginBottom: Spacing.xl,
+    marginBottom: Spacing.lg,
   },
   welcomeText: {
-    fontSize: 16,
+    fontSize: 14,
     color: Colors.text.secondary,
-    marginBottom: Spacing.xs,
+    marginBottom: 4,
   },
   museumTitle: {
-    fontSize: 32,
+    fontSize: 28,
     fontWeight: 'bold',
     color: Colors.text.primary,
-    lineHeight: 38,
+    lineHeight: 34,
+    fontFamily: 'serif',
   },
   highlightText: {
     color: Colors.primary,
@@ -205,9 +206,9 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: Colors.surface,
-    borderRadius: BorderRadius.lg,
+    borderRadius: 12,
     paddingHorizontal: Spacing.lg,
-    paddingVertical: Spacing.md,
+    paddingVertical: 14,
   },
   searchInput: {
     flex: 1,
@@ -216,22 +217,22 @@ const styles = StyleSheet.create({
   },
   actionButtons: {
     paddingHorizontal: Spacing.lg,
-    marginBottom: Spacing.xl,
+    marginBottom: Spacing.lg,
     gap: Spacing.md,
   },
   actionButton: {
     flexDirection: 'row',
     alignItems: 'center',
     paddingHorizontal: Spacing.lg,
-    paddingVertical: Spacing.lg,
-    borderRadius: BorderRadius.lg,
+    paddingVertical: 14,
+    borderRadius: 12,
     gap: Spacing.md,
   },
   scanButton: {
-    backgroundColor: Colors.primary,
+    backgroundColor: '#8B6F47',
   },
   tourButton: {
-    backgroundColor: Colors.secondary,
+    backgroundColor: '#C8A882',
   },
   actionTextContainer: {
     flex: 1,
@@ -255,14 +256,15 @@ const styles = StyleSheet.create({
     marginBottom: Spacing.lg,
   },
   sectionTitle: {
-    fontSize: 20,
+    fontSize: 22,
     fontWeight: 'bold',
     color: Colors.text.primary,
+    fontFamily: 'serif',
   },
   seeAllText: {
     fontSize: 14,
     color: Colors.primary,
-    fontWeight: '600',
+    fontWeight: '500',
   },
   artworksList: {
     paddingHorizontal: Spacing.lg,

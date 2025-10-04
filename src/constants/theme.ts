@@ -1,12 +1,12 @@
 // Palette de couleurs africaine authentique inspirée du Musée des Civilisations Noires
 export const Colors = {
-  // Couleurs principales - design sombre élégant
-  primary: '#D4AF37',      // Or doré - couleur principale
-  secondary: '#8B4513',    // Bronze/Cuivre - couleur secondaire
-  accent: '#FFD700',       // Or vif - accent
+  // Couleurs principales - design sombre élégant (couleurs exactes de l'image)
+  primary: '#C8A882',      // Or/Bronze doux - couleur des boutons
+  secondary: '#8B6F47',    // Bronze/Cuivre plus sombre
+  accent: '#C8A882',       // Or doux - accent
   earth: '#6B4423',        // Terre brûlée - tons naturels
-  background: '#1A1A1A',   // Noir sophistiqué - arrière-plan principal
-  surface: '#2C2C2C',      // Gris sombre - surfaces secondaires
+  background: '#2A2A2A',   // Gris foncé de l'image (plus clair que noir)
+  surface: '#3A3A3A',      // Gris moyen - surfaces secondaires
   
   // Couleurs système
   white: '#FFFFFF',
@@ -27,9 +27,9 @@ export const Colors = {
   // Texte - adapté au fond sombre
   text: {
     primary: '#FFFFFF',      // Blanc pour le texte principal
-    secondary: '#CCCCCC',    // Gris clair pour le texte secondaire
-    tertiary: '#999999',     // Gris moyen pour le texte tertiaire
-    accent: '#D4AF37',       // Or pour les accents
+    secondary: '#B8B8B8',    // Gris clair pour le texte secondaire
+    tertiary: '#8B8B8B',     // Gris moyen pour le texte tertiaire
+    accent: '#C8A882',       // Or pour les accents
     inverse: '#000000',      // Noir pour texte sur fond clair
   },
 
@@ -39,10 +39,10 @@ export const Colors = {
   
   // Gradients africains élégants
   gradients: {
-    gold: ['#D4AF37', '#FFD700'],
-    bronze: ['#8B4513', '#D2691E'],
-    elegant: ['#1A1A1A', '#2C2C2C'],
-    sunset: ['#8B4513', '#D4AF37'],
+    gold: ['#C8A882', '#D4AF37'],
+    bronze: ['#8B6F47', '#C8A882'],
+    elegant: ['#2A2A2A', '#3A3A3A'],
+    sunset: ['#8B6F47', '#C8A882'],
   }
 };
 
