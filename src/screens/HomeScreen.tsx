@@ -44,20 +44,17 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
         </View>
 
         {/* Search Bar */}
-        <View style={styles.searchContainer}>
-          <View style={styles.searchBar}>
-            <TextInput
-              style={styles.searchInput}
-              placeholder="Search Sculpture ..."
-              placeholderTextColor={Colors.text.secondary}
-              value={searchQuery}
-              onChangeText={setSearchQuery}
-            />
-            <Ionicons name="search" size={20} color={Colors.text.secondary} />
-          </View>
-        </View>
-
-        {/* Action Buttons */}
+      {/* Search Bar */}
+      <View style={styles.searchContainer}>
+        <TouchableOpacity 
+          style={styles.searchBar}
+          onPress={() => navigation.navigate('Search')}
+          activeOpacity={0.7}
+        >
+          <Ionicons name="search" size={20} color={Colors.text.secondary} />
+          <Text style={styles.searchInput}>Rechercher une œuvre...</Text>
+        </TouchableOpacity>
+      </View>        {/* Action Buttons */}
         <View style={styles.actionButtons}>
           <TouchableOpacity 
             style={[styles.actionButton, styles.scanButton]}
@@ -136,7 +133,7 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
           onPress={() => navigation.navigate('Scanner')}
         >
           <View style={styles.scanNavIcon}>
-            <Ionicons name="qr-code" size={28} color={Colors.black} />
+            <Ionicons name="qr-code" size={32} color={Colors.black} />
           </View>
         </TouchableOpacity>
         
@@ -215,7 +212,7 @@ const styles = StyleSheet.create({
   searchInput: {
     flex: 1,
     fontSize: 16,
-    color: Colors.text.primary,
+    color: Colors.text.secondary,
   },
   actionButtons: {
     paddingHorizontal: Spacing.lg,
@@ -324,18 +321,27 @@ const styles = StyleSheet.create({
   },
   bottomNav: {
     position: 'absolute',
-    bottom: 0,
-    left: 0,
-    right: 0,
+    bottom: 20,
+    left: 20,
+    right: 20,
     flexDirection: 'row',
-    backgroundColor: Colors.background,
+    backgroundColor: Colors.surface,
     paddingHorizontal: Spacing.xl,
     paddingVertical: Spacing.lg,
-    paddingBottom: 30,
-    borderTopWidth: 1,
-    borderTopColor: Colors.surface,
+    paddingBottom: Spacing.lg,
+    borderRadius: 25,
+    borderWidth: 1,
+    borderColor: Colors.primary,
     justifyContent: 'space-around',
     alignItems: 'center',
+    shadowColor: Colors.black,
+    shadowOffset: {
+      width: 0,
+      height: 5,
+    },
+    shadowOpacity: 0.3,
+    shadowRadius: 10,
+    elevation: 10,
   },
   navItem: {
     alignItems: 'center',
@@ -351,15 +357,23 @@ const styles = StyleSheet.create({
   },
   scanNavButton: {
     alignItems: 'center',
-    marginTop: -20,
+    marginTop: -40,
   },
   scanNavIcon: {
     backgroundColor: Colors.primary,
-    width: 60,
-    height: 60,
-    borderRadius: 30,
+    width: 70,
+    height: 70,
+    borderRadius: 35,
     justifyContent: 'center',
     alignItems: 'center',
+    shadowColor: Colors.primary,
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    shadowOpacity: 0.5,
+    shadowRadius: 10,
+    elevation: 8,
   },
 });
 

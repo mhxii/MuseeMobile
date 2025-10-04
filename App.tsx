@@ -7,6 +7,7 @@ import { Ionicons } from '@expo/vector-icons';
 
 // Import des écrans
 import HomeScreen from './src/screens/HomeScreen';
+import SearchScreen from './src/screens/SearchScreen';
 import ScannerScreen from './src/screens/ScannerScreen';
 import CollectionsScreen from './src/screens/CollectionsScreen';
 import TreasureHuntScreen from './src/screens/TreasureHuntScreen';
@@ -55,6 +56,10 @@ export default function App() {
           <Stack.Screen 
             name="MainTabs" 
             component={HomeScreen}
+          />
+          <Stack.Screen 
+            name="Search" 
+            component={SearchScreen}
           />
           <Stack.Screen 
             name="Scanner" 
