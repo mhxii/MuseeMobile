@@ -2,7 +2,6 @@ import React from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, SafeAreaView } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { Ionicons } from '@expo/vector-icons';
 
@@ -36,116 +35,6 @@ type TabParamList = {
 };
 
 const Stack = createNativeStackNavigator();
-const Tab = createBottomTabNavigator();
-
-// Configuration des onglets principaux
-function MainTabs() {
-  return (
-    <Tab.Navigator
-      screenOptions={({ route }: { route: any }) => ({
-        tabBarIcon: ({ focused, color, size }: { focused: boolean; color: string; size: number }) => {
-          let iconName: keyof typeof Ionicons.glyphMap;
-
-          switch (route.name) {
-            case 'Home':
-              iconName = focused ? 'home' : 'home-outline';
-              break;
-            case 'Scanner':
-              iconName = focused ? 'qr-code' : 'qr-code-outline';
-              break;
-            case 'Collections':
-              iconName = focused ? 'library' : 'library-outline';
-              break;
-            case 'Hunt':
-              iconName = focused ? 'trophy' : 'trophy-outline';
-              break;
-            case 'Tickets':
-              iconName = focused ? 'ticket' : 'ticket-outline';
-              break;
-            case 'Profile':
-              iconName = focused ? 'person' : 'person-outline';
-              break;
-            default:
-              iconName = 'help-outline';
-          }
-
-          return <Ionicons name={iconName} size={size} color={color} />;
-        },
-        tabBarActiveTintColor: Colors.primary,
-        tabBarInactiveTintColor: Colors.gray.dark,
-        tabBarStyle: {
-          backgroundColor: Colors.background,
-          borderTopColor: Colors.gray.light,
-          paddingTop: 8,
-          paddingBottom: 8,
-          height: 80,
-        },
-        tabBarLabelStyle: {
-          fontSize: 12,
-          fontWeight: '600',
-          marginTop: 4,
-        },
-        headerStyle: {
-          backgroundColor: Colors.primary,
-        },
-        headerTintColor: Colors.white,
-        headerTitleStyle: {
-          fontWeight: 'bold',
-          fontSize: 18,
-        },
-      })}
-    >
-      <Tab.Screen 
-        name="Home" 
-        component={HomeScreen}
-        options={{
-          title: 'Accueil',
-          headerShown: false,
-        }}
-      />
-      <Tab.Screen 
-        name="Scanner" 
-        component={ScannerScreen}
-        options={{
-          title: 'Scanner',
-          headerTitle: 'Scanner QR Code',
-        }}
-      />
-      <Tab.Screen 
-        name="Collections" 
-        component={CollectionsScreen}
-        options={{
-          title: 'Collections',
-          headerTitle: 'Collections du Musée',
-        }}
-      />
-      <Tab.Screen 
-        name="Hunt" 
-        component={TreasureHuntScreen}
-        options={{
-          title: 'Chasse',
-          headerTitle: 'Chasse au Trésor',
-        }}
-      />
-      <Tab.Screen 
-        name="Tickets" 
-        component={TicketsScreen}
-        options={{
-          title: 'Billets',
-          headerTitle: 'Billetterie',
-        }}
-      />
-      <Tab.Screen 
-        name="Profile" 
-        component={ProfileScreen}
-        options={{
-          title: 'Profil',
-          headerTitle: 'Mon Profil',
-        }}
-      />
-    </Tab.Navigator>
-  );
-}
 
 // Composant principal de l'application
 export default function App() {
@@ -156,32 +45,40 @@ export default function App() {
         <Stack.Navigator
           initialRouteName="Onboarding"
           screenOptions={{
-            headerStyle: {
-              backgroundColor: Colors.primary,
-            },
-            headerTintColor: Colors.white,
-            headerTitleStyle: {
-              fontWeight: 'bold',
-            },
+            headerShown: false,
           }}
         >
           <Stack.Screen 
             name="Onboarding" 
             component={OnboardingScreen}
-            options={{ headerShown: false }}
           />
           <Stack.Screen 
             name="MainTabs" 
-            component={MainTabs}
-            options={{ headerShown: false }}
+            component={HomeScreen}
+          />
+          <Stack.Screen 
+            name="Scanner" 
+            component={ScannerScreen}
+          />
+          <Stack.Screen 
+            name="Collections" 
+            component={CollectionsScreen}
+          />
+          <Stack.Screen 
+            name="Hunt" 
+            component={TreasureHuntScreen}
+          />
+          <Stack.Screen 
+            name="Tickets" 
+            component={TicketsScreen}
+          />
+          <Stack.Screen 
+            name="Profile" 
+            component={ProfileScreen}
           />
           <Stack.Screen 
             name="ArtworkDetail" 
             component={ArtworkDetailScreen}
-            options={{
-              title: 'Détails de l\'œuvre',
-              presentation: 'modal',
-            }}
           />
         </Stack.Navigator>
       </NavigationContainer>
