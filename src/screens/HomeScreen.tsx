@@ -1,5 +1,5 @@
-﻿import React, { useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, ScrollView, TextInput, ImageBackground, Dimensions } from 'react-native';
+﻿import React, { useState, useEffect, useRef } from 'react';
+import { View, Text, StyleSheet, TouchableOpacity, ScrollView, TextInput, ImageBackground, Dimensions, Modal, Alert, Animated } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { Ionicons } from '@expo/vector-icons';
 import { Colors, Spacing, Typography, BorderRadius } from '../constants/theme';
@@ -13,8 +13,60 @@ interface HomeScreenProps {
 
 const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
   const [searchQuery, setSearchQuery] = useState('');
+  const [showMenu, setShowMenu] = useState(false);
+  const slideAnim = useRef(new Animated.Value(-width * 0.7)).current;
+  const fadeAnim = useRef(new Animated.Value(0)).current;
   const featuredArtworks = MUSEUM_ARTWORKS.slice(0, 5); // 5 premières pour Collection Vedettes
   const upcomingArtworks = MUSEUM_ARTWORKS.slice(5, 10); // 5 suivantes pour Collection à venir
+
+  useEffect(() => {
+    if (showMenu) {
+      // Slide in from left
+      Animated.parallel([
+        Animated.timing(slideAnim, {
+          toValue: 0,
+          duration: 300,
+          useNativeDriver: true,
+        }),
+        Animated.timing(fadeAnim, {
+          toValue: 1,
+          duration: 300,
+          useNativeDriver: true,
+        }),
+      ]).start();
+    } else {
+      // Slide out to left
+      Animated.parallel([
+        Animated.timing(slideAnim, {
+          toValue: -width * 0.7,
+          duration: 250,
+          useNativeDriver: true,
+        }),
+        Animated.timing(fadeAnim, {
+          toValue: 0,
+          duration: 250,
+          useNativeDriver: true,
+        }),
+      ]).start();
+    }
+  }, [showMenu]);
+
+  const handleMenuPress = () => {
+    setShowMenu(true);
+  };
+
+  const handleProfilePress = () => {
+    navigation.navigate('Profile');
+  };
+
+  const menuItems = [
+    { icon: 'grid-outline', label: 'Collections', route: 'Collections' },
+    { icon: 'search-outline', label: 'Recherche', route: 'Search' },
+    { icon: 'trophy-outline', label: 'Chasse au trésor', route: 'TreasureHunt' },
+    { icon: 'ticket-outline', label: 'Billetterie', route: 'Tickets' },
+    { icon: 'settings-outline', label: 'Paramètres', action: 'settings' },
+    { icon: 'information-circle-outline', label: 'À propos', action: 'about' },
+  ];
 
   return (
     <View style={styles.container}>
@@ -24,7 +76,7 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
       <ScrollView style={styles.content} showsVerticalScrollIndicator={false}>
         {/* Header */}
         <View style={styles.header}>
-          <TouchableOpacity style={styles.menuButton}>
+          <TouchableOpacity style={styles.menuButton} onPress={handleMenuPress}>
             <View style={styles.menuIcon}>
               <View style={styles.menuLine} />
               <View style={styles.menuLine} />
@@ -32,7 +84,7 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
             </View>
           </TouchableOpacity>
           
-          <TouchableOpacity style={styles.profileButton}>
+          <TouchableOpacity style={styles.profileButton} onPress={handleProfilePress}>
             <View style={styles.profileAvatar}>
               <Ionicons name="person" size={18} color={Colors.background} />
             </View>
@@ -204,9 +256,94 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
           onPress={() => navigation.navigate('Profile')}
         >
           <Ionicons name="heart-outline" size={24} color={Colors.text.secondary} />
-          <Text style={styles.navLabel}>Favori</Text>
+                    <Text style={styles.navLabel}>Favori</Text>
         </TouchableOpacity>
       </View>
+
+      {/* Side Menu Modal */}
+      <Modal
+        visible={showMenu}
+        animationType="none"
+        transparent={true}
+        onRequestClose={() => setShowMenu(false)}
+      >
+        <View style={styles.menuOverlay}>
+          <Animated.View 
+            style={[
+              styles.menuContainer,
+              {
+                transform: [{ translateX: slideAnim }],
+              }
+            ]}
+          >
+            <View style={styles.menuHeader}>
+              <View style={styles.menuProfileSection}>
+                <View style={styles.menuProfileAvatar}>
+                  <Ionicons name="person" size={32} color={Colors.background} />
+                </View>
+                <View style={styles.menuProfileInfo}>
+                  <Text style={styles.menuProfileName}>Utilisateur</Text>
+                  <Text style={styles.menuProfileEmail}>visiteur@musee.sn</Text>
+                </View>
+              </View>
+              <TouchableOpacity 
+                style={styles.menuCloseButton}
+                onPress={() => setShowMenu(false)}
+              >
+                <Ionicons name="close" size={28} color={Colors.text.primary} />
+              </TouchableOpacity>
+            </View>
+
+            <ScrollView style={styles.menuContent} showsVerticalScrollIndicator={false}>
+              {menuItems.map((item, index) => (
+                <TouchableOpacity
+                  key={index}
+                  style={styles.menuItem}
+                  onPress={() => {
+                    setShowMenu(false);
+                    if (item.route) {
+                      navigation.navigate(item.route);
+                    } else if (item.action === 'settings') {
+                      Alert.alert('Paramètres', 'Fonctionnalité en développement');
+                    } else if (item.action === 'about') {
+                      Alert.alert(
+                        'À propos',
+                        'Musée des Civilisations Noires\nVersion 1.0.0\n\nDakar, Sénégal'
+                      );
+                    }
+                  }}
+                >
+                  <View style={styles.menuItemIcon}>
+                    <Ionicons name={item.icon as any} size={24} color={Colors.primary} />
+                  </View>
+                  <Text style={styles.menuItemText}>{item.label}</Text>
+                  <Ionicons name="chevron-forward" size={20} color={Colors.text.tertiary} />
+                </TouchableOpacity>
+              ))}
+            </ScrollView>
+
+            <View style={styles.menuFooter}>
+              <Text style={styles.menuFooterText}>
+                © 2025 Musée des Civilisations Noires
+              </Text>
+            </View>
+          </Animated.View>
+          <Animated.View 
+            style={[
+              styles.menuBackdrop,
+              {
+                opacity: fadeAnim,
+              }
+            ]}
+          >
+            <TouchableOpacity 
+              style={{ flex: 1 }} 
+              activeOpacity={1}
+              onPress={() => setShowMenu(false)}
+            />
+          </Animated.View>
+        </View>
+      </Modal>
     </View>
   );
 };
@@ -529,6 +666,105 @@ const styles = StyleSheet.create({
     elevation: 10,
     borderWidth: 3,
     borderColor: Colors.background,
+  },
+  // Menu styles
+  menuOverlay: {
+    flex: 1,
+    flexDirection: 'row',
+  },
+  menuBackdrop: {
+    flex: 1,
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+  },
+  menuContainer: {
+    width: width * 0.7,
+    backgroundColor: Colors.background,
+    shadowColor: Colors.black,
+    shadowOffset: {
+      width: 2,
+      height: 0,
+    },
+    shadowOpacity: 0.3,
+    shadowRadius: 10,
+    elevation: 10,
+  },
+  menuHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingHorizontal: Spacing.lg,
+    paddingTop: 50,
+    paddingBottom: Spacing.lg,
+    borderBottomWidth: 1,
+    borderBottomColor: Colors.surface,
+  },
+  menuProfileSection: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    flex: 1,
+  },
+  menuProfileAvatar: {
+    width: 56,
+    height: 56,
+    borderRadius: 28,
+    backgroundColor: Colors.primary,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginRight: Spacing.md,
+  },
+  menuProfileInfo: {
+    flex: 1,
+  },
+  menuProfileName: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: Colors.text.primary,
+    marginBottom: 4,
+  },
+  menuProfileEmail: {
+    fontSize: 14,
+    color: Colors.text.secondary,
+  },
+  menuCloseButton: {
+    padding: Spacing.xs,
+  },
+  menuContent: {
+    flex: 1,
+    paddingTop: Spacing.md,
+  },
+  menuItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: Spacing.lg,
+    paddingVertical: Spacing.md,
+    borderBottomWidth: 1,
+    borderBottomColor: Colors.surface,
+  },
+  menuItemIcon: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    backgroundColor: 'rgba(200, 168, 130, 0.15)',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginRight: Spacing.md,
+  },
+  menuItemText: {
+    flex: 1,
+    fontSize: 16,
+    color: Colors.text.primary,
+    fontWeight: '500',
+  },
+  menuFooter: {
+    paddingHorizontal: Spacing.lg,
+    paddingVertical: Spacing.lg,
+    borderTopWidth: 1,
+    borderTopColor: Colors.surface,
+    alignItems: 'center',
+  },
+  menuFooterText: {
+    fontSize: 12,
+    color: Colors.text.tertiary,
   },
 });
 
