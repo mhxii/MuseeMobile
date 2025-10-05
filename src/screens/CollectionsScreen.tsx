@@ -16,12 +16,32 @@ import { MUSEUM_ARTWORKS } from '../constants/data';
 const { width } = Dimensions.get('window');
 
 interface CollectionsScreenProps {
-  navigation: any;
+  navigation?: any;
+  route?: {
+    params?: {
+      type?: 'featured' | 'upcoming';
+    };
+  };
 }
 
-const CollectionsScreen: React.FC<CollectionsScreenProps> = ({ navigation }) => {
-  // Afficher toutes les œuvres (pas juste les 3 premières)
-  const allArtworks = MUSEUM_ARTWORKS;
+const CollectionsScreen: React.FC<CollectionsScreenProps> = ({ navigation, route }) => {
+  // Déterminer quel type de collection afficher
+  const collectionType = route?.params?.type || 'all';
+  
+  // Afficher les œuvres selon le type
+  let displayedArtworks;
+  let headerTitle;
+  
+  if (collectionType === 'featured') {
+    displayedArtworks = MUSEUM_ARTWORKS.slice(0, 5);
+    headerTitle = 'Collection Vedettes';
+  } else if (collectionType === 'upcoming') {
+    displayedArtworks = MUSEUM_ARTWORKS.slice(5, 10);
+    headerTitle = 'Collection à venir';
+  } else {
+    displayedArtworks = MUSEUM_ARTWORKS;
+    headerTitle = 'Toutes les Collections';
+  }
 
   return (
     <View style={styles.container}>
@@ -36,7 +56,7 @@ const CollectionsScreen: React.FC<CollectionsScreenProps> = ({ navigation }) => 
           <Ionicons name="chevron-back" size={28} color={Colors.text.primary} />
         </TouchableOpacity>
         
-        <Text style={styles.headerTitle}>Collection Vedettes</Text>
+        <Text style={styles.headerTitle}>{headerTitle}</Text>
         
         <TouchableOpacity style={styles.searchButton} onPress={() => navigation.navigate('Search')}>
           <Ionicons name="search" size={24} color={Colors.text.primary} />
@@ -49,7 +69,7 @@ const CollectionsScreen: React.FC<CollectionsScreenProps> = ({ navigation }) => 
         showsVerticalScrollIndicator={false}
       >
         <View style={styles.artworksList}>
-          {allArtworks.map((artwork) => (
+          {displayedArtworks.map((artwork) => (
             <TouchableOpacity
               key={artwork.id}
               style={styles.artworkCard}

@@ -13,7 +13,8 @@ interface HomeScreenProps {
 
 const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
   const [searchQuery, setSearchQuery] = useState('');
-  const featuredArtworks = MUSEUM_ARTWORKS.slice(0, 3);
+  const featuredArtworks = MUSEUM_ARTWORKS.slice(0, 5); // 5 premières pour Collection Vedettes
+  const upcomingArtworks = MUSEUM_ARTWORKS.slice(5, 10); // 5 suivantes pour Collection à venir
 
   return (
     <View style={styles.container}>
@@ -90,17 +91,25 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
         {/* Featured Collection Section */}
         <View style={styles.sectionHeader}>
           <Text style={styles.sectionTitle}>Collection Vedettes</Text>
-          <TouchableOpacity onPress={() => navigation.navigate('Collections')}>
-            <Text style={styles.seeAllText}>Voir Tout</Text>
+          <TouchableOpacity onPress={() => navigation.navigate('Collections', { type: 'featured' })}>
+            <View style={styles.seeAllButton}>
+              <Text style={styles.seeAllText}>Voir Tout</Text>
+              <Ionicons name="arrow-forward" size={16} color={Colors.primary} />
+            </View>
           </TouchableOpacity>
         </View>
 
-        {/* Artwork Cards */}
-        <View style={styles.artworksList}>
+        {/* Horizontal Artwork Cards */}
+        <ScrollView
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          contentContainerStyle={styles.horizontalScrollContent}
+          style={styles.horizontalScroll}
+        >
           {featuredArtworks.map((artwork, index) => (
             <TouchableOpacity
               key={artwork.id}
-              style={styles.artworkCard}
+              style={styles.artworkCardHorizontal}
               onPress={() => navigation.navigate('ArtworkDetail', { artworkId: artwork.id })}
             >
               <ImageBackground
@@ -123,7 +132,53 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
               </ImageBackground>
             </TouchableOpacity>
           ))}
+        </ScrollView>
+
+        {/* Upcoming Collection Section */}
+        <View style={styles.sectionHeader}>
+          <Text style={styles.sectionTitle}>Collection à venir</Text>
+          <TouchableOpacity onPress={() => navigation.navigate('Collections', { type: 'upcoming' })}>
+            <View style={styles.seeAllButtonUpcoming}>
+              <Text style={styles.seeAllTextUpcoming}>Voir Tout</Text>
+              <Ionicons name="arrow-forward" size={16} color={Colors.white} />
+            </View>
+          </TouchableOpacity>
         </View>
+
+        {/* Horizontal Upcoming Artwork Cards */}
+        <ScrollView
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          contentContainerStyle={styles.horizontalScrollContent}
+          style={styles.horizontalScroll}
+        >
+          {upcomingArtworks.map((artwork, index) => (
+            <TouchableOpacity
+              key={artwork.id}
+              style={styles.artworkCardHorizontal}
+              onPress={() => navigation.navigate('ArtworkDetail', { artworkId: artwork.id })}
+            >
+              <ImageBackground
+                source={{ uri: artwork.imageUrl }}
+                style={styles.artworkImage}
+                imageStyle={styles.artworkImageStyle}
+              >
+                <View style={styles.artworkOverlay}>
+                  <View style={styles.artworkInfo}>
+                    <Text style={styles.artworkCategory}>Peinture Contemporaine</Text>
+                    <Text style={styles.artworkTitle}>{artwork.title.fr}</Text>
+                    <Text style={styles.artworkArtist}>{artwork.artist}</Text>
+                    <Text style={styles.artworkLocation}>{artwork.location}</Text>
+                  </View>
+                  
+                  <TouchableOpacity style={styles.artworkButton}>
+                    <Ionicons name="chevron-forward" size={20} color={Colors.white} />
+                  </TouchableOpacity>
+                </View>
+              </ImageBackground>
+            </TouchableOpacity>
+          ))}
+        </ScrollView>
 
         <View style={styles.bottomSpace} />
       </ScrollView>
@@ -280,6 +335,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingHorizontal: Spacing.lg,
     marginBottom: Spacing.lg,
+    marginTop: Spacing.md,
   },
   sectionTitle: {
     fontSize: 22,
@@ -287,14 +343,59 @@ const styles = StyleSheet.create({
     color: Colors.text.primary,
     fontFamily: 'serif',
   },
+  seeAllButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 4,
+    paddingVertical: 4,
+    paddingHorizontal: 8,
+    borderRadius: 12,
+    backgroundColor: 'rgba(200, 168, 130, 0.15)',
+  },
   seeAllText: {
     fontSize: 14,
     color: Colors.primary,
-    fontWeight: '500',
+    fontWeight: '600',
+  },
+  seeAllButtonUpcoming: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 4,
+    paddingVertical: 6,
+    paddingHorizontal: 12,
+    borderRadius: 12,
+    backgroundColor: Colors.primary,
+  },
+  seeAllTextUpcoming: {
+    fontSize: 14,
+    color: Colors.background,
+    fontWeight: '600',
+  },
+  horizontalScroll: {
+    marginBottom: Spacing.xl,
+  },
+  horizontalScrollContent: {
+    paddingHorizontal: Spacing.lg,
+    gap: Spacing.md,
   },
   artworksList: {
     paddingHorizontal: Spacing.lg,
     gap: Spacing.lg,
+  },
+  artworkCardHorizontal: {
+    width: width * 0.75,
+    height: 220,
+    borderRadius: 20,
+    overflow: 'hidden',
+    marginRight: Spacing.md,
+    shadowColor: Colors.black,
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    shadowOpacity: 0.3,
+    shadowRadius: 8,
+    elevation: 6,
   },
   artworkCard: {
     height: 220,
