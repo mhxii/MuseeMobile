@@ -9,16 +9,14 @@ import {
   ImageBackground,
   Animated,
   Dimensions,
-  FlatList,
 } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { Ionicons } from '@expo/vector-icons';
 import { Colors, Spacing, Typography, BorderRadius } from '../constants/theme';
 import { MUSEUM_ARTWORKS } from '../constants/data';
 
-const { width, height } = Dimensions.get('window');
-const CARD_WIDTH = width * 0.42;
-const CARD_HEIGHT = height * 0.35;
+const { width } = Dimensions.get('window');
+const CARD_WIDTH = width - (Spacing.lg * 2);
 
 interface SearchScreenProps {
   navigation: any;
@@ -28,7 +26,6 @@ const SearchScreen: React.FC<SearchScreenProps> = ({ navigation }) => {
   const [searchQuery, setSearchQuery] = useState('');
   const [searchResults, setSearchResults] = useState(MUSEUM_ARTWORKS);
   const fadeAnim = useRef(new Animated.Value(0)).current;
-  const scrollX = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
     Animated.timing(fadeAnim, {
@@ -47,68 +44,11 @@ const SearchScreen: React.FC<SearchScreenProps> = ({ navigation }) => {
         (artwork) =>
           artwork.title.fr.toLowerCase().includes(text.toLowerCase()) ||
           artwork.artist.toLowerCase().includes(text.toLowerCase()) ||
-          artwork.period.toLowerCase().includes(text.toLowerCase())
+          artwork.period.toLowerCase().includes(text.toLowerCase()) ||
+          artwork.collection.toLowerCase().includes(text.toLowerCase())
       );
       setSearchResults(filtered);
     }
-  };
-
-  const renderArtworkCard = ({ item, index }: { item: any; index: number }) => {
-    const inputRange = [
-      (index - 1) * CARD_WIDTH,
-      index * CARD_WIDTH,
-      (index + 1) * CARD_WIDTH,
-    ];
-
-    const scale = scrollX.interpolate({
-      inputRange,
-      outputRange: [0.9, 1, 0.9],
-      extrapolate: 'clamp',
-    });
-
-    const opacity = scrollX.interpolate({
-      inputRange,
-      outputRange: [0.6, 1, 0.6],
-      extrapolate: 'clamp',
-    });
-
-    return (
-      <Animated.View
-        style={[
-          styles.artworkCardContainer,
-          {
-            transform: [{ scale }],
-            opacity,
-          },
-        ]}
-      >
-        <TouchableOpacity
-          style={styles.artworkCard}
-          onPress={() => navigation.navigate('ArtworkDetail', { artworkId: item.id })}
-          activeOpacity={0.9}
-        >
-          <ImageBackground
-            source={{ uri: item.imageUrl }}
-            style={styles.artworkImage}
-            imageStyle={styles.artworkImageStyle}
-          >
-            <View style={styles.artworkOverlay}>
-              <View style={styles.artworkInfo}>
-                <Text style={styles.artworkPeriod} numberOfLines={1}>
-                  {item.period}
-                </Text>
-                <Text style={styles.artworkArtist} numberOfLines={1}>
-                  {item.artist}
-                </Text>
-                <Text style={styles.artworkTitle} numberOfLines={2}>
-                  {item.title.fr}
-                </Text>
-              </View>
-            </View>
-          </ImageBackground>
-        </TouchableOpacity>
-      </Animated.View>
-    );
   };
 
   return (
@@ -126,14 +66,12 @@ const SearchScreen: React.FC<SearchScreenProps> = ({ navigation }) => {
           style={styles.backButton}
           onPress={() => navigation.goBack()}
         >
-          <Ionicons name="chevron-back" size={24} color={Colors.text.primary} />
+          <Ionicons name="arrow-back" size={24} color={Colors.primary} />
         </TouchableOpacity>
         
-        <Text style={styles.headerTitle}>Searching</Text>
+        <Text style={styles.headerTitle}>Recherche</Text>
         
-        <TouchableOpacity style={styles.filterButton}>
-          <Ionicons name="options" size={24} color={Colors.text.primary} />
-        </TouchableOpacity>
+        <View style={styles.placeholder} />
       </Animated.View>
 
       {/* Search Bar avec animation */}
@@ -147,7 +85,7 @@ const SearchScreen: React.FC<SearchScreenProps> = ({ navigation }) => {
           <Ionicons name="search" size={20} color={Colors.text.secondary} />
           <TextInput
             style={styles.searchInput}
-            placeholder="Rechercher une œuvre..."
+            placeholder="Rechercher une œuvre, artiste..."
             placeholderTextColor={Colors.text.secondary}
             value={searchQuery}
             onChangeText={handleSearch}
@@ -161,23 +99,73 @@ const SearchScreen: React.FC<SearchScreenProps> = ({ navigation }) => {
         </View>
       </Animated.View>
 
-      {/* Horizontal Scrolling Artwork List */}
-      <Animated.View style={[styles.carouselContainer, { opacity: fadeAnim }]}>
-        <Animated.FlatList
-          data={searchResults}
-          renderItem={renderArtworkCard}
-          keyExtractor={(item) => item.id}
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          snapToInterval={CARD_WIDTH}
-          decelerationRate="fast"
-          contentContainerStyle={styles.carouselContent}
-          onScroll={Animated.event(
-            [{ nativeEvent: { contentOffset: { x: scrollX } } }],
-            { useNativeDriver: true }
+      {/* Results Count */}
+      {searchQuery.length > 0 && (
+        <Animated.View style={[styles.resultsCount, { opacity: fadeAnim }]}>
+          <Text style={styles.resultsCountText}>
+            {searchResults.length} résultat{searchResults.length !== 1 ? 's' : ''} trouvé{searchResults.length !== 1 ? 's' : ''}
+          </Text>
+        </Animated.View>
+      )}
+
+      {/* Vertical Scrolling Artwork List */}
+      <Animated.View style={[styles.resultsContainer, { opacity: fadeAnim }]}>
+        <ScrollView 
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={styles.resultsContent}
+        >
+          {searchResults.length === 0 ? (
+            <View style={styles.emptyState}>
+              <View style={styles.emptyIconContainer}>
+                <Ionicons name="search-outline" size={60} color={Colors.text.tertiary} />
+              </View>
+              <Text style={styles.emptyTitle}>Aucun résultat</Text>
+              <Text style={styles.emptySubtitle}>
+                Essayez avec d'autres mots-clés
+              </Text>
+            </View>
+          ) : (
+            searchResults.map((artwork, index) => (
+              <TouchableOpacity
+                key={artwork.id}
+                style={styles.artworkCard}
+                onPress={() => navigation.navigate('ArtworkDetail', { artworkId: artwork.id })}
+                activeOpacity={0.9}
+              >
+                <ImageBackground
+                  source={{ uri: artwork.imageUrl }}
+                  style={styles.artworkImage}
+                  imageStyle={styles.artworkImageStyle}
+                >
+                  <View style={styles.imageOverlay}>
+                    <View style={styles.artworkBadge}>
+                      <Text style={styles.badgeText}>{artwork.collection}</Text>
+                    </View>
+                  </View>
+                </ImageBackground>
+                
+                <View style={styles.artworkInfo}>
+                  <Text style={styles.artworkTitle} numberOfLines={2}>
+                    {artwork.title.fr}
+                  </Text>
+                  <Text style={styles.artworkArtist} numberOfLines={1}>
+                    {artwork.artist}
+                  </Text>
+                  <View style={styles.artworkMeta}>
+                    <View style={styles.metaItem}>
+                      <Ionicons name="calendar-outline" size={14} color={Colors.text.tertiary} />
+                      <Text style={styles.metaText}>{artwork.period}</Text>
+                    </View>
+                    <View style={styles.metaItem}>
+                      <Ionicons name="location-outline" size={14} color={Colors.text.tertiary} />
+                      <Text style={styles.metaText}>{artwork.location}</Text>
+                    </View>
+                  </View>
+                </View>
+              </TouchableOpacity>
+            ))
           )}
-          scrollEventThrottle={16}
-        />
+        </ScrollView>
       </Animated.View>
     </View>
   );
@@ -193,23 +181,32 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     paddingHorizontal: Spacing.lg,
-    paddingTop: 60,
-    paddingBottom: Spacing.md,
+    paddingTop: 50,
+    paddingBottom: Spacing.lg,
+    backgroundColor: Colors.background,
+    borderBottomWidth: 1,
+    borderBottomColor: Colors.surface,
   },
   backButton: {
-    padding: Spacing.sm,
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    backgroundColor: Colors.surface,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   headerTitle: {
-    fontSize: 20,
-    fontWeight: 'bold',
+    fontSize: Typography.sizes.xl,
+    fontWeight: Typography.weights.bold,
     color: Colors.text.primary,
+    fontFamily: 'serif',
   },
-  filterButton: {
-    padding: Spacing.sm,
+  placeholder: {
+    width: 40,
   },
   searchContainer: {
     paddingHorizontal: Spacing.lg,
-    marginBottom: Spacing.xl,
+    paddingTop: Spacing.lg,
   },
   searchBar: {
     flexDirection: 'row',
@@ -219,68 +216,123 @@ const styles = StyleSheet.create({
     paddingHorizontal: Spacing.lg,
     paddingVertical: Spacing.md,
     gap: Spacing.sm,
+    borderWidth: 1,
+    borderColor: Colors.primary + '30',
   },
   searchInput: {
     flex: 1,
-    fontSize: 16,
+    fontSize: Typography.sizes.md,
     color: Colors.text.primary,
   },
-  carouselContainer: {
+  resultsCount: {
+    paddingHorizontal: Spacing.lg,
+    paddingTop: Spacing.md,
+  },
+  resultsCountText: {
+    fontSize: Typography.sizes.sm,
+    color: Colors.text.secondary,
+    fontWeight: Typography.weights.semiBold,
+  },
+  resultsContainer: {
     flex: 1,
   },
-  carouselContent: {
-    paddingHorizontal: (width - CARD_WIDTH) / 2,
-    paddingTop: Spacing.xl,
+  resultsContent: {
+    paddingHorizontal: Spacing.lg,
+    paddingTop: Spacing.lg,
+    paddingBottom: Spacing.xl,
   },
-  artworkCardContainer: {
-    width: CARD_WIDTH,
-    paddingHorizontal: 8,
+  // Empty State
+  emptyState: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingVertical: Spacing.xxl * 2,
   },
-  artworkCard: {
-    width: '100%',
-    height: CARD_HEIGHT,
-    borderRadius: BorderRadius.xl,
-    overflow: 'hidden',
+  emptyIconContainer: {
+    width: 120,
+    height: 120,
+    borderRadius: 60,
     backgroundColor: Colors.surface,
-    shadowColor: Colors.black,
-    shadowOffset: {
-      width: 0,
-      height: 8,
-    },
-    shadowOpacity: 0.4,
-    shadowRadius: 12,
-    elevation: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: Spacing.xl,
+    borderWidth: 2,
+    borderColor: Colors.primary + '30',
+  },
+  emptyTitle: {
+    fontSize: Typography.sizes.xl,
+    fontWeight: Typography.weights.bold,
+    color: Colors.text.primary,
+    marginBottom: Spacing.sm,
+    fontFamily: 'serif',
+  },
+  emptySubtitle: {
+    fontSize: Typography.sizes.md,
+    color: Colors.text.secondary,
+    textAlign: 'center',
+  },
+  // Artwork Cards
+  artworkCard: {
+    backgroundColor: Colors.surface,
+    borderRadius: BorderRadius.lg,
+    marginBottom: Spacing.lg,
+    overflow: 'hidden',
+    borderWidth: 1,
+    borderColor: Colors.surface,
   },
   artworkImage: {
-    flex: 1,
-    justifyContent: 'flex-end',
+    width: '100%',
+    height: 200,
   },
   artworkImageStyle: {
-    borderRadius: BorderRadius.xl,
+    borderTopLeftRadius: BorderRadius.lg,
+    borderTopRightRadius: BorderRadius.lg,
   },
-  artworkOverlay: {
-    backgroundColor: 'rgba(0, 0, 0, 0.65)',
+  imageOverlay: {
+    flex: 1,
+    justifyContent: 'flex-end',
     padding: Spacing.md,
   },
-  artworkInfo: {
-    gap: 4,
+  artworkBadge: {
+    alignSelf: 'flex-start',
+    backgroundColor: Colors.primary + 'DD',
+    paddingHorizontal: Spacing.md,
+    paddingVertical: Spacing.xs,
+    borderRadius: BorderRadius.sm,
   },
-  artworkPeriod: {
-    fontSize: 11,
-    color: Colors.text.secondary,
+  badgeText: {
+    fontSize: Typography.sizes.xs,
+    color: Colors.background,
+    fontWeight: Typography.weights.bold,
     textTransform: 'uppercase',
-    letterSpacing: 0.5,
   },
-  artworkArtist: {
-    fontSize: 13,
-    color: Colors.text.secondary,
-    fontWeight: '500',
+  artworkInfo: {
+    padding: Spacing.lg,
   },
   artworkTitle: {
-    fontSize: 16,
-    fontWeight: 'bold',
-    color: Colors.white,
-    lineHeight: 22,
+    fontSize: Typography.sizes.lg,
+    fontWeight: Typography.weights.bold,
+    color: Colors.text.primary,
+    marginBottom: Spacing.xs,
+    fontFamily: 'serif',
+  },
+  artworkArtist: {
+    fontSize: Typography.sizes.md,
+    color: Colors.primary,
+    marginBottom: Spacing.sm,
+  },
+  artworkMeta: {
+    flexDirection: 'row',
+    gap: Spacing.md,
+  },
+  metaItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 4,
+  },
+  metaText: {
+    fontSize: Typography.sizes.sm,
+    color: Colors.text.tertiary,
   },
 });
 
