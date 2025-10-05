@@ -13,6 +13,7 @@ import CollectionsScreen from './src/screens/CollectionsScreen';
 import TreasureHuntScreen from './src/screens/TreasureHuntScreen';
 import TicketsScreen from './src/screens/TicketsScreen';
 import ProfileScreen from './src/screens/ProfileScreen';
+import FavoritesScreen from './src/screens/FavoritesScreen';
 import ArtworkDetailScreen from './src/screens/ArtworkDetailScreen';
 import OnboardingScreen from './src/screens/OnboardingScreen';
 
@@ -80,6 +81,10 @@ export default function App() {
           <Stack.Screen 
             name="Profile" 
             component={ProfileScreen}
+          />
+          <Stack.Screen 
+            name="Favorites" 
+            component={FavoritesScreen}
           />
           <Stack.Screen 
             name="ArtworkDetail" 

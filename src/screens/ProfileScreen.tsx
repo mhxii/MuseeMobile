@@ -75,7 +75,10 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation }) => {
         {/* Favorites Section */}
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>Mes Favoris</Text>
-          <TouchableOpacity style={styles.menuCard}>
+          <TouchableOpacity 
+            style={styles.menuCard}
+            onPress={() => navigation.navigate('Favorites')}
+          >
             <View style={styles.menuIconWrapper}>
               <Ionicons name="heart" size={24} color={Colors.primary} />
             </View>

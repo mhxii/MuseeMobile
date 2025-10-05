@@ -253,7 +253,7 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
         
         <TouchableOpacity 
           style={styles.navItem}
-          onPress={() => navigation.navigate('Profile')}
+          onPress={() => navigation.navigate('Favorites')}
         >
           <Ionicons name="heart-outline" size={24} color={Colors.text.secondary} />
                     <Text style={styles.navLabel}>Favori</Text>
