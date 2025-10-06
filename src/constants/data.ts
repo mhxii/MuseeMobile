@@ -371,6 +371,306 @@ export const MUSEUM_ARTWORKS = [
       answer: '',
       points: 0
     }
+  },
+  {
+    id: '11',
+    qrCode: 'MCN_MASK_011',
+    title: {
+      fr: 'Masque Senoufo',
+      en: 'Senoufo Mask',
+      wo: 'Ndok Senoufo'
+    },
+    artist: 'Artisan Senoufo',
+    period: 'XIXe siècle',
+    collection: 'Masques Rituels',
+    description: {
+      fr: 'Masque cérémoniel utilisé lors des rites d\'initiation Poro, représentant un esprit protecteur.',
+      en: 'Ceremonial mask used in Poro initiation rites, representing a protective spirit.',
+      wo: 'Ndok bu njëkk ci rite yu Poro, ba di wone bakkan bu dëgg.'
+    },
+    audioFile: {
+      fr: 'senoufo_fr.mp3',
+      en: 'senoufo_en.mp3',
+      wo: 'senoufo_wo.mp3'
+    },
+    imageUrl: 'https://picsum.photos/400/300?random=11',
+    location: 'Salle 3 - Masques',
+    dimensions: '38 x 20 x 15 cm',
+    materials: 'Bois, pigments naturels',
+    acquisitionYear: 1985,
+    isHighlight: true,
+    tags: ['masque', 'senoufo', 'rituel', 'poro', 'spirituel'],
+    treasureHunt: {
+      isPartOfHunt: true,
+      huntId: 'hunt_001',
+      riddle: { 
+        fr: 'Je protège les initiés dans leur passage vers l\'âge adulte',
+        en: 'I protect initiates in their passage to adulthood',
+        wo: 'Dama dëgg ñi di njëkk ci yoon yu mag'
+      },
+      answer: 'Senoufo',
+      points: 25
+    }
+  },
+  {
+    id: '12',
+    qrCode: 'MCN_TEXTILE_012',
+    title: {
+      fr: 'Bogolan Bambara',
+      en: 'Bambara Mud Cloth',
+      wo: 'Sëriñ Bambara'
+    },
+    artist: 'Collectif de tisseuses',
+    period: 'XXe siècle',
+    collection: 'Textiles Traditionnels',
+    description: {
+      fr: 'Tissu teint avec de la boue fermentée, portant des symboles ancestraux et géométriques.',
+      en: 'Cloth dyed with fermented mud, bearing ancestral and geometric symbols.',
+      wo: 'Sëriñ bu njëkk ak ndox, ba am xeet yu njëkk ak géométrie.'
+    },
+    audioFile: {
+      fr: 'bogolan_fr.mp3',
+      en: 'bogolan_en.mp3',
+      wo: 'bogolan_wo.mp3'
+    },
+    imageUrl: 'https://picsum.photos/400/300?random=12',
+    location: 'Salle 5 - Textiles',
+    dimensions: '150 x 100 cm',
+    materials: 'Coton, boue fermentée',
+    acquisitionYear: 1995,
+    isHighlight: false,
+    tags: ['textile', 'bogolan', 'bambara', 'boue', 'symboles'],
+    treasureHunt: {
+      isPartOfHunt: false,
+      huntId: '',
+      riddle: { fr: '', en: '', wo: '' },
+      answer: '',
+      points: 0
+    }
+  },
+  {
+    id: '13',
+    qrCode: 'MCN_BRONZE_013',
+    title: {
+      fr: 'Tête de Reine Yoruba',
+      en: 'Yoruba Queen Head',
+      wo: 'Bop bu Linger Yoruba'
+    },
+    artist: 'Maître d\'Ifé',
+    period: 'XIIe-XVe siècle',
+    collection: 'Bronzes Anciens',
+    description: {
+      fr: 'Magnifique tête en bronze représentant une reine d\'Ifé, témoignant d\'un savoir-faire exceptionnel.',
+      en: 'Magnificent bronze head representing an Ifé queen, showcasing exceptional craftsmanship.',
+      wo: 'Bop bu rafet ci bronze ba di wone linger bu Ifé, ba jël xam-xam bu mag.'
+    },
+    audioFile: {
+      fr: 'yoruba_fr.mp3',
+      en: 'yoruba_en.mp3',
+      wo: 'yoruba_wo.mp3'
+    },
+    imageUrl: 'https://picsum.photos/400/300?random=13',
+    location: 'Salle 2 - Bronzes',
+    dimensions: '30 x 18 x 20 cm',
+    materials: 'Bronze, cuivre',
+    acquisitionYear: 1990,
+    isHighlight: true,
+    tags: ['bronze', 'yoruba', 'ifé', 'royauté', 'ancien'],
+    treasureHunt: {
+      isPartOfHunt: false,
+      huntId: '',
+      riddle: { fr: '', en: '', wo: '' },
+      answer: '',
+      points: 0
+    }
+  },
+  {
+    id: '14',
+    qrCode: 'MCN_INSTRUMENT_014',
+    title: {
+      fr: 'Balafon Malinké',
+      en: 'Malinké Balafon',
+      wo: 'Balafon Malinké'
+    },
+    artist: 'Luthier traditionnel',
+    period: 'XXe siècle',
+    collection: 'Instruments de Musique',
+    description: {
+      fr: 'Instrument à percussion mélodique, ancêtre du xylophone, utilisé dans les cérémonies royales.',
+      en: 'Melodic percussion instrument, ancestor of the xylophone, used in royal ceremonies.',
+      wo: 'Xalam yu njëkk ci ceremoni yu linger, moroom yu xylophone.'
+    },
+    audioFile: {
+      fr: 'balafon_fr.mp3',
+      en: 'balafon_en.mp3',
+      wo: 'balafon_wo.mp3'
+    },
+    imageUrl: 'https://picsum.photos/400/300?random=14',
+    location: 'Salle 6 - Musique',
+    dimensions: '120 x 50 x 30 cm',
+    materials: 'Bois, calebasse, peau',
+    acquisitionYear: 2005,
+    isHighlight: false,
+    tags: ['instrument', 'balafon', 'malinké', 'percussion', 'musique'],
+    treasureHunt: {
+      isPartOfHunt: true,
+      huntId: 'hunt_002',
+      riddle: { 
+        fr: 'Mes notes résonnent dans les palais des rois',
+        en: 'My notes resonate in the palaces of kings',
+        wo: 'Sama xalaat dañu dégg ci kër yu linger'
+      },
+      answer: 'Balafon',
+      points: 20
+    }
+  },
+  {
+    id: '15',
+    qrCode: 'MCN_SCULPTURE_015',
+    title: {
+      fr: 'Couple Dogon',
+      en: 'Dogon Couple',
+      wo: 'Njar Dogon'
+    },
+    artist: 'Sculpteur Dogon',
+    period: 'XVIIIe siècle',
+    collection: 'Sculptures Ancestrales',
+    description: {
+      fr: 'Sculpture représentant un couple primordial, symbole de la création et de l\'équilibre cosmique.',
+      en: 'Sculpture depicting a primordial couple, symbol of creation and cosmic balance.',
+      wo: 'Xarma ba di wone njar bu njëkk, xeet bu nekk ak benn-benn bu àdduna.'
+    },
+    audioFile: {
+      fr: 'couple_dogon_fr.mp3',
+      en: 'couple_dogon_en.mp3',
+      wo: 'couple_dogon_wo.mp3'
+    },
+    imageUrl: 'https://picsum.photos/400/300?random=15',
+    location: 'Salle 4 - Sculptures',
+    dimensions: '65 x 20 x 18 cm',
+    materials: 'Bois dur, patine',
+    acquisitionYear: 1988,
+    isHighlight: true,
+    tags: ['sculpture', 'dogon', 'couple', 'ancestral', 'cosmique'],
+    treasureHunt: {
+      isPartOfHunt: false,
+      huntId: '',
+      riddle: { fr: '', en: '', wo: '' },
+      answer: '',
+      points: 0
+    }
+  },
+  {
+    id: '16',
+    qrCode: 'MCN_JEWELRY_016',
+    title: {
+      fr: 'Collier Ashanti',
+      en: 'Ashanti Necklace',
+      wo: 'Ngir Ashanti'
+    },
+    artist: 'Orfèvre Ashanti',
+    period: 'XIXe siècle',
+    collection: 'Bijoux Royaux',
+    description: {
+      fr: 'Collier en or massif orné de symboles Adinkra, porté par les dignitaires de la cour.',
+      en: 'Solid gold necklace adorned with Adinkra symbols, worn by court dignitaries.',
+      wo: 'Ngir bu woor ba am xeet yu Adinkra, ba ñu di tool ci kër-gu-mag.'
+    },
+    audioFile: {
+      fr: 'ashanti_fr.mp3',
+      en: 'ashanti_en.mp3',
+      wo: 'ashanti_wo.mp3'
+    },
+    imageUrl: 'https://picsum.photos/400/300?random=16',
+    location: 'Salle 7 - Bijoux',
+    dimensions: '45 cm de longueur',
+    materials: 'Or 22 carats, perles',
+    acquisitionYear: 1992,
+    isHighlight: true,
+    tags: ['bijou', 'ashanti', 'or', 'adinkra', 'royal'],
+    treasureHunt: {
+      isPartOfHunt: true,
+      huntId: 'hunt_003',
+      riddle: { 
+        fr: 'Je brille autour du cou des nobles et porte la sagesse des anciens',
+        en: 'I shine around the necks of nobles and carry the wisdom of the ancients',
+        wo: 'Dama tej ci bët yu góor te am njariñ yu mag'
+      },
+      answer: 'Ashanti',
+      points: 30
+    }
+  },
+  {
+    id: '17',
+    qrCode: 'MCN_POTTERY_017',
+    title: {
+      fr: 'Jarre Bamana',
+      en: 'Bamana Jar',
+      wo: 'Mbëtt Bamana'
+    },
+    artist: 'Potière Bamana',
+    period: 'XXe siècle',
+    collection: 'Céramiques',
+    description: {
+      fr: 'Grande jarre de conservation décorée de motifs géométriques, utilisée pour stocker le mil.',
+      en: 'Large storage jar decorated with geometric patterns, used to store millet.',
+      wo: 'Mbëtt bu mag ba di wax soow, ba am xeet yu géométrie.'
+    },
+    audioFile: {
+      fr: 'jarre_fr.mp3',
+      en: 'jarre_en.mp3',
+      wo: 'jarre_wo.mp3'
+    },
+    imageUrl: 'https://picsum.photos/400/300?random=17',
+    location: 'Salle 8 - Céramiques',
+    dimensions: '80 x 50 cm',
+    materials: 'Argile, engobe',
+    acquisitionYear: 2000,
+    isHighlight: false,
+    tags: ['céramique', 'bamana', 'jarre', 'mil', 'quotidien'],
+    treasureHunt: {
+      isPartOfHunt: false,
+      huntId: '',
+      riddle: { fr: '', en: '', wo: '' },
+      answer: '',
+      points: 0
+    }
+  },
+  {
+    id: '18',
+    qrCode: 'MCN_PAINTING_018',
+    title: {
+      fr: 'Guerriers Zoulous',
+      en: 'Zulu Warriors',
+      wo: 'Ceddo Zulu'
+    },
+    artist: 'Chéri Samba',
+    period: 'XXIe siècle',
+    collection: 'Peinture Contemporaine',
+    description: {
+      fr: 'Toile vibrante célébrant la bravoure des guerriers zoulous et leur héritage historique.',
+      en: 'Vibrant canvas celebrating the bravery of Zulu warriors and their historical heritage.',
+      wo: 'Nataal bu njool ba di wax fit bu ceddo yu Zulu ak tariku ñu.'
+    },
+    audioFile: {
+      fr: 'zulu_fr.mp3',
+      en: 'zulu_en.mp3',
+      wo: 'zulu_wo.mp3'
+    },
+    imageUrl: 'https://picsum.photos/400/300?random=18',
+    location: 'Galerie Moderne',
+    dimensions: '180 x 150 cm',
+    materials: 'Acrylique sur toile',
+    acquisitionYear: 2018,
+    isHighlight: true,
+    tags: ['peinture', 'zulu', 'guerrier', 'contemporain', 'histoire'],
+    treasureHunt: {
+      isPartOfHunt: false,
+      huntId: '',
+      riddle: { fr: '', en: '', wo: '' },
+      answer: '',
+      points: 0
+    }
   }
 ];
 
