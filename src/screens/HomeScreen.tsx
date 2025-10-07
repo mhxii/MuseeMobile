@@ -18,6 +18,17 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
   const fadeAnim = useRef(new Animated.Value(0)).current;
   const contentSlideAnim = useRef(new Animated.Value(0)).current; // Pour déplacer le contenu
   const contentScaleAnim = useRef(new Animated.Value(1)).current; // Pour rétrécir le contenu
+  const contentVerticalAnim = useRef(new Animated.Value(0)).current; // Pour descendre le contenu
+  
+  // Animations pour les éléments du menu
+  const leftIconAnim = useRef(new Animated.Value(-50)).current; // Avatar de gauche
+  const rightIconAnim = useRef(new Animated.Value(50)).current; // Close de droite
+  const menuItemsAnim = useRef([
+    new Animated.Value(-100),
+    new Animated.Value(-100),
+    new Animated.Value(-100),
+  ]).current;
+  
   const featuredArtworks = MUSEUM_ARTWORKS.slice(0, 5); // 5 premières pour Collection Vedettes
   const upcomingArtworks = MUSEUM_ARTWORKS.slice(5, 10); // 5 suivantes pour Collection à venir
 
@@ -36,7 +47,7 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
           useNativeDriver: true,
         }),
         Animated.timing(contentSlideAnim, {
-          toValue: width * 0.65, // Déplacer vers la droite
+          toValue: width * 0.75, // Déplacer plus vers la droite
           duration: 300,
           useNativeDriver: true,
         }),
@@ -45,6 +56,33 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
           duration: 300,
           useNativeDriver: true,
         }),
+        Animated.timing(contentVerticalAnim, {
+          toValue: 50, // Descendre de 50px
+          duration: 300,
+          useNativeDriver: true,
+        }),
+        // Animation icône gauche (avatar)
+        Animated.timing(leftIconAnim, {
+          toValue: 0,
+          duration: 400,
+          delay: 100,
+          useNativeDriver: true,
+        }),
+        // Animation icône droite (close)
+        Animated.timing(rightIconAnim, {
+          toValue: 0,
+          duration: 400,
+          delay: 100,
+          useNativeDriver: true,
+        }),
+        // Animation des items du menu (stagger effect)
+        Animated.stagger(80, menuItemsAnim.map((anim) =>
+          Animated.timing(anim, {
+            toValue: 0,
+            duration: 400,
+            useNativeDriver: true,
+          })
+        )),
       ]).start();
     } else {
       // Slide out to left + remettre le contenu en place
@@ -69,6 +107,29 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
           duration: 250,
           useNativeDriver: true,
         }),
+        Animated.timing(contentVerticalAnim, {
+          toValue: 0,
+          duration: 250,
+          useNativeDriver: true,
+        }),
+        // Reset icônes et items
+        Animated.timing(leftIconAnim, {
+          toValue: -50,
+          duration: 200,
+          useNativeDriver: true,
+        }),
+        Animated.timing(rightIconAnim, {
+          toValue: 50,
+          duration: 200,
+          useNativeDriver: true,
+        }),
+        ...menuItemsAnim.map((anim) =>
+          Animated.timing(anim, {
+            toValue: -100,
+            duration: 200,
+            useNativeDriver: true,
+          })
+        ),
       ]).start();
     }
   }, [showMenu]);
@@ -82,9 +143,9 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
   };
 
   const menuItems = [
-    { icon: 'settings-outline', label: 'Paramètre', action: 'settings' },
-    { icon: 'ticket-outline', label: 'Billetterie', route: 'Tickets' },
-    { icon: 'information-circle-outline', label: 'À propos', action: 'about' },
+    { icon: 'heart', label: 'Favori', route: 'Favorites' },
+    { icon: 'information-circle', label: 'A propos', action: 'about' },
+    { icon: 'ticket', label: 'Billeterie', route: 'Tickets' },
   ];
 
   return (
@@ -95,43 +156,49 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
       <View style={styles.menuBackground}>
         {/* Menu Header avec icônes */}
         <View style={styles.menuHeader}>
-          <TouchableOpacity style={styles.menuHeaderIcon}>
-            <Ionicons name="person-circle-outline" size={48} color="rgba(0,0,0,0.4)" />
-          </TouchableOpacity>
+          <Animated.View style={[
+            styles.menuHeaderIcon,
+            { transform: [{ translateX: leftIconAnim }] }
+          ]}>
+            <TouchableOpacity>
+              <Ionicons name="person-circle" size={56} color="#4A4A4A" />
+            </TouchableOpacity>
+          </Animated.View>
           
-          <TouchableOpacity 
-            style={styles.menuCloseButton}
-            onPress={() => setShowMenu(false)}
-          >
-            <Ionicons name="close-circle-outline" size={48} color="rgba(0,0,0,0.4)" />
-          </TouchableOpacity>
+          <Animated.View style={[
+            styles.menuCloseButton,
+            { transform: [{ translateX: rightIconAnim }] }
+          ]}>
+            <TouchableOpacity onPress={() => setShowMenu(false)}>
+              <Ionicons name="close-circle" size={56} color="#4A4A4A" />
+            </TouchableOpacity>
+          </Animated.View>
         </View>
 
         {/* Menu Items */}
         <View style={styles.menuContent}>
           {menuItems.map((item, index) => (
-            <TouchableOpacity
+            <Animated.View
               key={index}
-              style={styles.menuItem}
-              onPress={() => {
-                setShowMenu(false);
-                if (item.route) {
-                  navigation.navigate(item.route);
-                } else if (item.action === 'settings') {
-                  Alert.alert('Paramètres', 'Fonctionnalité en développement');
-                } else if (item.action === 'about') {
-                  Alert.alert(
-                    'À propos',
-                    'Musée des Civilisations Noires\nVersion 1.0.0\n\nDakar, Sénégal'
-                  );
-                }
-              }}
+              style={{ transform: [{ translateX: menuItemsAnim[index] }] }}
             >
-              <View style={styles.menuItemIconContainer}>
-                <Ionicons name={item.icon as any} size={32} color="rgba(0,0,0,0.4)" />
-              </View>
-              <Text style={styles.menuItemText}>{item.label}</Text>
-            </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.menuItem}
+                onPress={() => {
+                  setShowMenu(false);
+                  if (item.route) {
+                    navigation.navigate(item.route);
+                  } else if (item.action === 'settings') {
+                    Alert.alert('Paramètres', 'Fonctionnalité en développement');
+                  } else if (item.action === 'about') {
+                    navigation.navigate('About');
+                  }
+                }}
+              >
+                <Ionicons name={item.icon as any} size={28} color="#4A4A4A" />
+                <Text style={styles.menuItemText}>{item.label}</Text>
+              </TouchableOpacity>
+            </Animated.View>
           ))}
         </View>
       </View>
@@ -143,6 +210,7 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
           {
             transform: [
               { translateX: contentSlideAnim },
+              { translateY: contentVerticalAnim },
               { scale: contentScaleAnim }
             ],
             borderRadius: showMenu ? 20 : 0,
@@ -333,16 +401,16 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
           onPress={() => navigation.navigate('Scanner')}
         >
           <View style={styles.scanNavIcon}>
-            <Ionicons name="qr-code" size={32} color={Colors.black} />
+            <Ionicons name="scan-outline" size={32} color={Colors.black} />
           </View>
         </TouchableOpacity>
         
         <TouchableOpacity 
           style={styles.navItem}
-          onPress={() => navigation.navigate('Favorites')}
+          onPress={() => navigation.navigate('History')}
         >
-          <Ionicons name="heart-outline" size={24} color={Colors.text.secondary} />
-          <Text style={styles.navLabel}>Favori</Text>
+          <Ionicons name="time-outline" size={24} color={Colors.text.secondary} />
+          <Text style={styles.navLabel}>Historique</Text>
         </TouchableOpacity>
       </View>
       </TouchableOpacity>
@@ -363,49 +431,43 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     bottom: 0,
-    backgroundColor: '#9B8B6E',
+    backgroundColor: '#A89575',
     zIndex: 1,
   },
   menuHeader: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    paddingHorizontal: Spacing.lg,
+    paddingHorizontal: Spacing.xl,
     paddingTop: 60,
-    paddingBottom: Spacing.xl,
+    paddingBottom: Spacing.xl * 2,
   },
   menuHeaderIcon: {
-    width: 50,
-    height: 50,
+    width: 56,
+    height: 56,
   },
   menuCloseButton: {
-    width: 50,
-    height: 50,
+    width: 56,
+    height: 56,
   },
   menuContent: {
     flex: 1,
-    paddingTop: Spacing.xl * 2,
-    paddingHorizontal: Spacing.lg,
+    paddingTop: Spacing.md,
+    paddingHorizontal: Spacing.xl + 8,
   },
   menuItem: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingVertical: Spacing.xl,
-    marginBottom: Spacing.md,
-  },
-  menuItemIconContainer: {
-    width: 50,
-    height: 50,
-    justifyContent: 'center',
-    alignItems: 'flex-start',
-    marginRight: Spacing.md,
+    paddingVertical: Spacing.md,
+    marginBottom: Spacing.sm,
   },
   menuItemText: {
     flex: 1,
-    fontSize: 28,
-    color: 'rgba(0, 0, 0, 0.7)',
+    fontSize: 24,
+    color: Colors.white,
     fontWeight: '400',
     fontFamily: 'serif',
+    marginLeft: Spacing.lg,
   },
   contentWrapper: {
     position: 'absolute',

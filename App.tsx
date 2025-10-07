@@ -14,8 +14,10 @@ import TreasureHuntScreen from './src/screens/TreasureHuntScreen';
 import TicketsScreen from './src/screens/TicketsScreen';
 import ProfileScreen from './src/screens/ProfileScreen';
 import FavoritesScreen from './src/screens/FavoritesScreen';
+import HistoryScreen from './src/screens/HistoryScreen';
 import ArtworkDetailScreen from './src/screens/ArtworkDetailScreen';
 import OnboardingScreen from './src/screens/OnboardingScreen';
+import { AboutScreen } from './src/screens/AboutScreen';
 
 // Import des constantes de thème
 import { Colors } from './src/constants/theme';
@@ -85,6 +87,14 @@ export default function App() {
           <Stack.Screen 
             name="Favorites" 
             component={FavoritesScreen}
+          />
+          <Stack.Screen 
+            name="History" 
+            component={HistoryScreen}
+          />
+          <Stack.Screen 
+            name="About" 
+            component={AboutScreen}
           />
           <Stack.Screen 
             name="ArtworkDetail" 
